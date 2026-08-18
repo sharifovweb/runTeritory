@@ -25,7 +25,7 @@ export default function Controls({
   };
 
   return (
-    <div style={{
+    <div className="controls-bar" style={{
       position: 'absolute',
       bottom: '24px',
       left: '50%',
@@ -35,7 +35,7 @@ export default function Controls({
       display: 'flex',
       alignItems: 'center',
       gap: '12px',
-      background: 'rgba(15, 23, 42, 0.85)',
+      background: 'rgba(15, 23, 42, 0.88)',
       backdropFilter: 'blur(20px)',
       WebkitBackdropFilter: 'blur(20px)',
       border: '1px solid rgba(255, 255, 255, 0.15)',
@@ -45,6 +45,7 @@ export default function Controls({
     }}>
       {/* Start / Pause Running Button */}
       <button
+        className="controls-btn"
         onClick={onToggleRun}
         style={{
           background: isRunning
@@ -71,6 +72,7 @@ export default function Controls({
       {/* Claim Loop Area Button (Only active when outside base drawing a trail) */}
       {isOutsideBase && (
         <button
+          className="controls-btn"
           onClick={handleClaim}
           style={{
             background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',

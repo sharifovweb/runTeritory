@@ -50,7 +50,7 @@ export default function GameHUD({
     : `${Math.round(userPlayer.distance)} m`;
 
   return (
-    <div style={{
+    <div className="hud-container" style={{
       position: 'absolute',
       top: '16px',
       left: '16px',
@@ -62,7 +62,7 @@ export default function GameHUD({
       gap: '12px',
     }}>
       {/* Top Header Card */}
-      <div style={{
+      <div className="hud-card" style={{
         pointerEvents: 'auto',
         background: 'rgba(15, 23, 42, 0.82)',
         backdropFilter: 'blur(16px)',
@@ -76,40 +76,84 @@ export default function GameHUD({
         boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)',
         color: '#f8fafc',
       }}>
-        {/* Main Stats: Player Avatar & Area */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <button
-            onClick={onEditProfile}
-            title="Nik-name va rangni o'zgartirish"
-            style={{
-              width: '44px',
-              height: '44px',
-              borderRadius: '14px',
-              background: userPlayer.color,
-              border: 'none',
-              boxShadow: `0 0 16px ${userPlayer.color}80`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#fff',
-              fontWeight: 800,
-              fontSize: '20px',
-              cursor: 'pointer',
-              transition: 'transform 0.15s ease',
-            }}
-          >
-            {userPlayer.avatarIcon || '🏃'}
-          </button>
-          <div>
-            <div
+        {/* Top Row: Player Avatar & Controls */}
+        <div className="hud-top-row">
+          {/* Main Stats: Player Avatar & Area */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <button
               onClick={onEditProfile}
-              style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#38bdf8', fontWeight: 700, cursor: 'pointer' }}
+              title="Nik-name va rangni o'zgartirish"
+              style={{
+                width: '42px',
+                height: '42px',
+                borderRadius: '14px',
+                background: userPlayer.color,
+                border: 'none',
+                boxShadow: `0 0 16px ${userPlayer.color}80`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#fff',
+                fontWeight: 800,
+                fontSize: '20px',
+                cursor: 'pointer',
+                transition: 'transform 0.15s ease',
+              }}
             >
-              {userPlayer.name || 'Yuguruvchi'}
+              {userPlayer.avatarIcon || '🏃'}
+            </button>
+            <div>
+              <div
+                onClick={onEditProfile}
+                style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#38bdf8', fontWeight: 700, cursor: 'pointer' }}
+              >
+                {userPlayer.name || 'Yuguruvchi'}
+              </div>
+              <div style={{ fontSize: '18px', fontWeight: 800, color: '#f8fafc', lineHeight: 1.1 }}>
+                {formattedArea}
+              </div>
             </div>
-            <div style={{ fontSize: '18px', fontWeight: 800, color: '#f8fafc', lineHeight: 1.1 }}>
-              {formattedArea}
-            </div>
+          </div>
+
+          {/* Right Tools: Lock Map & Mute */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <button
+              onClick={onToggleFollow}
+              title={followPlayer ? "Xaritani qulflash" : "Xaritani erkin ko'rish"}
+              style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '10px',
+                background: followPlayer ? 'rgba(56, 189, 248, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                border: `1px solid ${followPlayer ? '#38bdf8' : 'rgba(255, 255, 255, 0.1)'}`,
+                color: followPlayer ? '#38bdf8' : '#94a3b8',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+              }}
+            >
+              {followPlayer ? <IconLock size={18} /> : <IconLockOpen size={18} />}
+            </button>
+
+            <button
+              onClick={handleToggleMute}
+              title="Ovozni yoqish/o'chirish"
+              style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '10px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                color: isMuted ? '#f43f5e' : '#38bdf8',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+              }}
+            >
+              {isMuted ? <IconVolumeOff size={18} /> : <IconVolume size={18} />}
+            </button>
           </div>
         </div>
 

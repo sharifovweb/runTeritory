@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "RunTerritory GPS",
+    "slug": "runterritory-gps",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#090d16"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Yugurganda real-vaqt rejimida xaritada yer egallash uchun GPS geolokatsiya talab qilinadi.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Orqa fonda ham yugurish masofangiz va egallangan hududingizni aniq hisoblash uchun GPS ruxsat talab qilinadi."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#090d16"
+      },
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "FOREGROUND_SERVICE"
+      ],
+      "package": "com.sharifovweb.runterritory"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
