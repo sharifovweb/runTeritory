@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Player, GPSStatus, GameMode } from '@/types/game';
-import { Activity, Compass, MapPin, Volume2, VolumeX, Shield, Zap, Lock, Unlock } from 'lucide-react';
+import { IconBolt, IconActivity, IconMapPin, IconLock, IconLockOpen, IconVolume, IconVolumeOff } from '@tabler/icons-react';
 import { soundFx } from '@/utils/soundEffects';
 
 interface GameHUDProps {
@@ -106,7 +106,7 @@ export default function GameHUD({
           {/* Speed */}
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '10px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'center' }}>
-              <Zap size={12} color="#fbbf24" /> Tezlik
+              <IconBolt size={14} color="#fbbf24" /> Tezlik
             </div>
             <div style={{ fontSize: '16px', fontWeight: 700, color: '#38bdf8' }}>
               {userPlayer.speed.toFixed(1)} <span style={{ fontSize: '11px', color: '#64748b' }}>km/h</span>
@@ -116,7 +116,7 @@ export default function GameHUD({
           {/* Distance */}
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '10px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'center' }}>
-              <Activity size={12} color="#10b981" /> Masofa
+              <IconActivity size={14} color="#10b981" /> Masofa
             </div>
             <div style={{ fontSize: '16px', fontWeight: 700, color: '#10b981' }}>
               {formattedDistance}
@@ -154,7 +154,7 @@ export default function GameHUD({
               gap: '6px',
             }}
           >
-            <MapPin size={14} />
+            <IconMapPin size={16} />
             Real GPS (Aktiv)
           </div>
         </div>
@@ -178,7 +178,7 @@ export default function GameHUD({
               cursor: 'pointer',
             }}
           >
-            {followPlayer ? <Lock size={16} /> : <Unlock size={16} />}
+            {followPlayer ? <IconLock size={18} /> : <IconLockOpen size={18} />}
           </button>
 
           {/* Mute Button */}
@@ -198,7 +198,7 @@ export default function GameHUD({
               cursor: 'pointer',
             }}
           >
-            {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+            {isMuted ? <IconVolumeOff size={18} /> : <IconVolume size={18} />}
           </button>
 
           {/* Color Selector */}

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Player } from '@/types/game';
-import { Trophy, Crown, Flame, ChevronRight, ChevronLeft } from 'lucide-react';
+import { IconTrophy, IconCrown, IconFlame, IconChevronRight, IconChevronLeft } from '@tabler/icons-react';
 
 interface LeaderboardProps {
   userPlayer: Player;
@@ -44,9 +44,9 @@ export default function Leaderboard({ userPlayer, bots }: LeaderboardProps) {
             fontWeight: 700,
           }}
         >
-          <Trophy size={16} />
+          <IconTrophy size={18} />
           Reyting (#{userRank})
-          <ChevronLeft size={16} color="#94a3b8" />
+          <IconChevronLeft size={18} color="#94a3b8" />
         </button>
       )}
 
@@ -66,7 +66,7 @@ export default function Leaderboard({ userPlayer, bots }: LeaderboardProps) {
           {/* Header */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 800, fontSize: '15px', color: '#fbbf24' }}>
-              <Crown size={18} /> Top Hudud Egalari
+              <IconCrown size={20} /> Top Hudud Egalari
             </div>
             <button
               onClick={() => setIsOpen(false)}
@@ -78,7 +78,7 @@ export default function Leaderboard({ userPlayer, bots }: LeaderboardProps) {
                 padding: '4px',
               }}
             >
-              <ChevronRight size={18} />
+              <IconChevronRight size={20} />
             </button>
           </div>
 
@@ -127,7 +127,7 @@ export default function Leaderboard({ userPlayer, bots }: LeaderboardProps) {
                     </div>
                   </div>
 
-                  {isUser && <Flame size={14} color="#38bdf8" />}
+                  {isUser && <IconFlame size={16} color="#38bdf8" />}
                 </div>
               );
             })}

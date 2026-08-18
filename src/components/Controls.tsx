@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Play, Pause, CheckCircle2, RotateCcw, ShieldAlert } from 'lucide-react';
+import { IconPlayerPlay, IconPlayerPause, IconCircleCheck } from '@tabler/icons-react';
 import { soundFx } from '@/utils/soundEffects';
 
 interface ControlsProps {
@@ -64,7 +64,7 @@ export default function Controls({
           transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       >
-        {isRunning ? <Pause size={20} /> : <Play size={20} />}
+        {isRunning ? <IconPlayerPause size={20} /> : <IconPlayerPlay size={20} />}
         {isRunning ? 'Yugurishni To\'xtatish' : 'Yugurishni Boshlash'}
       </button>
 
@@ -88,7 +88,7 @@ export default function Controls({
             animation: 'pulse 1.5s infinite',
           }}
         >
-          <CheckCircle2 size={18} />
+          <IconCircleCheck size={20} />
           Hududni Biriktirish
         </button>
       )}

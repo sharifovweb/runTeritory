@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { MapPin, ShieldCheck, X, Check } from 'lucide-react';
+import { IconMapPin, IconShieldCheck, IconX, IconCheck } from '@tabler/icons-react';
 
 interface GPSPermissionModalProps {
   isOpen: boolean;
@@ -57,14 +57,14 @@ export default function GPSPermissionModal({
             justifyContent: 'center',
             color: '#38bdf8',
           }}>
-            <MapPin size={26} />
+            <IconMapPin size={26} />
           </div>
           <div>
             <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#f8fafc', lineHeight: 1.2 }}>
               GPS Geolokatsiyaga Ulanaymi?
             </h3>
             <span style={{ fontSize: '12px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
-              <ShieldCheck size={14} color="#10b981" /> Maxfiylik va Aniq Kuzatuv
+              <IconShieldCheck size={16} color="#10b981" /> Maxfiylik va Aniq Kuzatuv
             </span>
           </div>
         </div>
@@ -103,7 +103,7 @@ export default function GPSPermissionModal({
               transition: 'all 0.15s ease',
             }}
           >
-            <X size={18} />
+            <IconX size={18} />
             Bekor qilish
           </button>
 
@@ -127,7 +127,7 @@ export default function GPSPermissionModal({
               transition: 'all 0.15s ease',
             }}
           >
-            <Check size={18} />
+            <IconCheck size={18} />
             Ha, ulanish
           </button>
         </div>
