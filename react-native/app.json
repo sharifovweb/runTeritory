@@ -4,14 +4,8 @@
     "slug": "runterritory-gps",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#090d16"
-    },
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -20,10 +14,6 @@
       }
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#090d16"
-      },
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
@@ -31,9 +21,6 @@
         "FOREGROUND_SERVICE"
       ],
       "package": "com.sharifovweb.runterritory"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }
