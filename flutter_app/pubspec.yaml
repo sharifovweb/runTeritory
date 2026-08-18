@@ -1,0 +1,26 @@
+name: run_territory_flutter
+description: "Paper.io 2 Style Real-World GPS Territory Capture Mobile Game in Flutter"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+  geolocator: ^13.0.1
+  shared_preferences: ^2.3.2
+  vibration: ^2.0.0
+  confetti: ^0.7.0
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
