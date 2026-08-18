@@ -7,6 +7,7 @@ import Leaderboard from '@/components/Leaderboard';
 import Controls from '@/components/Controls';
 import JoystickControls from '@/components/JoystickControls';
 import GPSPermissionModal from '@/components/GPSPermissionModal';
+import NicknameModal from '@/components/NicknameModal';
 import { Player, Coordinate, GameMode, GPSStatus } from '@/types/game';
 import { createInitialBase, isPointInPolygon, mergeTrailIntoBase, getDistanceMeters } from '@/utils/turfEngine';
 import { createInitialBots, tickBot, BotState } from '@/utils/botSimulator';
@@ -20,6 +21,7 @@ const STORAGE_KEY = 'runterritory_saved_user_data_v2';
 export default function PaperIoGpsGame() {
   const [gameMode, setGameMode] = useState<GameMode>('REAL_GPS');
   const [showGpsModal, setShowGpsModal] = useState<boolean>(false);
+  const [showNicknameModal, setShowNicknameModal] = useState<boolean>(false);
   const [isRunning, setIsRunning] = useState<boolean>(true);
   const [followPlayer, setFollowPlayer] = useState<boolean>(true);
   const [mapCenter, setMapCenter] = useState<Coordinate>(DEFAULT_CENTER);
@@ -29,7 +31,7 @@ export default function PaperIoGpsGame() {
     const defaultBase = createInitialBase(DEFAULT_CENTER, 18);
     const defaultState: Player = {
       id: 'user-player',
-      name: 'Yuguruvchi (Siz)',
+      name: '',
       color: '#38bdf8',
       isBot: false,
       position: DEFAULT_CENTER,
@@ -50,6 +52,7 @@ export default function PaperIoGpsGame() {
           if (parsed.basePolygon && parsed.basePolygon.length > 0) {
             return {
               ...defaultState,
+              name: parsed.name || '',
               basePolygon: parsed.basePolygon,
               totalArea: parsed.totalArea || defaultState.totalArea,
               distance: parsed.distance || 0,
@@ -64,6 +67,13 @@ export default function PaperIoGpsGame() {
     }
     return defaultState;
   });
+
+  // Check if nickname modal needs to be shown on start
+  useEffect(() => {
+    if (!userPlayer.name || userPlayer.name.trim() === '') {
+      setShowNicknameModal(true);
+    }
+  }, [userPlayer.name]);
 
   // AI Bots state
   const [bots, setBots] = useState<Player[]>([]);
@@ -80,13 +90,14 @@ export default function PaperIoGpsGame() {
   const lastTimeRef = useRef<number>(Date.now());
   const watchIdRef = useRef<number | null>(null);
 
-  // Auto-save player state to localStorage whenever territory or distance updates
+  // Auto-save player state to localStorage whenever profile, territory or distance updates
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && userPlayer.name) {
       try {
         localStorage.setItem(
           STORAGE_KEY,
           JSON.stringify({
+            name: userPlayer.name,
             basePolygon: userPlayer.basePolygon,
             totalArea: userPlayer.totalArea,
             distance: userPlayer.distance,
@@ -98,7 +109,16 @@ export default function PaperIoGpsGame() {
         console.error('Failed to save player data:', err);
       }
     }
-  }, [userPlayer.basePolygon, userPlayer.totalArea, userPlayer.distance, userPlayer.color, userPlayer.position]);
+  }, [userPlayer.name, userPlayer.basePolygon, userPlayer.totalArea, userPlayer.distance, userPlayer.color, userPlayer.position]);
+
+  const handleNicknameSubmit = (name: string, color: string) => {
+    setUserPlayer((prev) => ({
+      ...prev,
+      name,
+      color,
+    }));
+    setShowNicknameModal(false);
+  };
 
   // Auto-locate real user GPS position on page launch if no saved territory
   useEffect(() => {
@@ -315,6 +335,14 @@ export default function PaperIoGpsGame() {
 
   return (
     <main style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
+      {/* Nickname & Personal Color Selection Modal */}
+      <NicknameModal
+        isOpen={showNicknameModal}
+        initialName={userPlayer.name}
+        initialColor={userPlayer.color}
+        onSubmit={handleNicknameSubmit}
+      />
+
       {/* Top Floating Glassmorphism HUD */}
       <GameHUD
         userPlayer={userPlayer}
@@ -324,6 +352,7 @@ export default function PaperIoGpsGame() {
         onToggleFollow={() => setFollowPlayer(!followPlayer)}
         onSelectColor={(color) => setUserPlayer((p) => ({ ...p, color }))}
         onToggleMode={() => {}}
+        onEditProfile={() => setShowNicknameModal(true)}
       />
 
       {/* Top Right Live Leaderboard */}

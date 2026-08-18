@@ -13,6 +13,7 @@ interface GameHUDProps {
   onToggleFollow: () => void;
   onSelectColor: (color: string) => void;
   onToggleMode: () => void;
+  onEditProfile?: () => void;
 }
 
 const PLAYER_COLORS = [
@@ -31,6 +32,7 @@ export default function GameHUD({
   onToggleFollow,
   onSelectColor,
   onToggleMode,
+  onEditProfile,
 }: GameHUDProps) {
   const [isMuted, setIsMuted] = React.useState(false);
 
@@ -74,28 +76,38 @@ export default function GameHUD({
         boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)',
         color: '#f8fafc',
       }}>
-        {/* Main Stats: Area */}
+        {/* Main Stats: Player Avatar & Area */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{
-            width: '44px',
-            height: '44px',
-            borderRadius: '14px',
-            background: userPlayer.color,
-            boxShadow: `0 0 16px ${userPlayer.color}80`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#fff',
-            fontWeight: 800,
-            fontSize: '20px',
-          }}>
+          <button
+            onClick={onEditProfile}
+            title="Nik-name va rangni o'zgartirish"
+            style={{
+              width: '44px',
+              height: '44px',
+              borderRadius: '14px',
+              background: userPlayer.color,
+              border: 'none',
+              boxShadow: `0 0 16px ${userPlayer.color}80`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#fff',
+              fontWeight: 800,
+              fontSize: '20px',
+              cursor: 'pointer',
+              transition: 'transform 0.15s ease',
+            }}
+          >
             {userPlayer.avatarIcon || '🏃'}
-          </div>
+          </button>
           <div>
-            <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#94a3b8', fontWeight: 600 }}>
-              Egallangan Maydon
+            <div
+              onClick={onEditProfile}
+              style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#38bdf8', fontWeight: 700, cursor: 'pointer' }}
+            >
+              {userPlayer.name || 'Yuguruvchi'}
             </div>
-            <div style={{ fontSize: '20px', fontWeight: 800, color: '#f8fafc', lineHeight: 1.1 }}>
+            <div style={{ fontSize: '18px', fontWeight: 800, color: '#f8fafc', lineHeight: 1.1 }}>
               {formattedArea}
             </div>
           </div>

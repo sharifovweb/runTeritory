@@ -61,6 +61,17 @@ html, body {
   background: rgba(15, 23, 42, 0.95) !important;
 }
 
+/* Mobile Responsiveness & Touch Optimization */
+@media (max-width: 640px) {
+  .hud-stats-group {
+    gap: 8px !important;
+  }
+
+  button {
+    touch-action: manipulation;
+  }
+}
+
 /* Scrollbars */
 ::-webkit-scrollbar {
   width: 4px;
