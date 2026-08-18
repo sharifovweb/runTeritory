@@ -111,6 +111,16 @@ export default function PaperIoGpsGame() {
     }
   }, [userPlayer.name, userPlayer.basePolygon, userPlayer.totalArea, userPlayer.distance, userPlayer.color, userPlayer.position]);
 
+  // Trigger GPS permission modal on launch if not shown yet
+  useEffect(() => {
+    if (!showNicknameModal && typeof window !== 'undefined') {
+      const hasAsked = sessionStorage.getItem('runterritory_gps_asked');
+      if (!hasAsked) {
+        setShowGpsModal(true);
+      }
+    }
+  }, [showNicknameModal]);
+
   const handleNicknameSubmit = (name: string, color: string) => {
     setUserPlayer((prev) => ({
       ...prev,
@@ -118,35 +128,68 @@ export default function PaperIoGpsGame() {
       color,
     }));
     setShowNicknameModal(false);
+    // Show GPS modal immediately after nickname is entered
+    setShowGpsModal(true);
   };
 
-  // Auto-locate real user GPS position on page launch if no saved territory
-  useEffect(() => {
+  // High Accuracy GPS Lock Function
+  const requestHighAccuracyLocation = useCallback(() => {
     if (typeof window !== 'undefined' && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
-          const { latitude, longitude } = pos.coords;
-          const autoCoord: Coordinate = [latitude, longitude];
+          const { latitude, longitude, accuracy } = pos.coords;
+          const exactCoord: Coordinate = [latitude, longitude];
 
           setUserPlayer((prev) => {
-            // Only create initial base if user doesn't already have saved territory
             if (!prev.basePolygon || prev.basePolygon[0].length < 3) {
-              const initialBase = createInitialBase(autoCoord, 18);
-              return { ...prev, position: autoCoord, basePolygon: [initialBase] };
+              const initialBase = createInitialBase(exactCoord, 18);
+              return { ...prev, position: exactCoord, basePolygon: [initialBase] };
             }
-            return { ...prev, position: autoCoord };
+            return { ...prev, position: exactCoord };
           });
 
-          setMapCenter(autoCoord);
-          lastPosRef.current = autoCoord;
+          setMapCenter(exactCoord);
+          lastPosRef.current = exactCoord;
+          setGpsStatus({
+            active: true,
+            accuracy: accuracy ? Math.round(accuracy) : null,
+            error: null,
+            mode: 'REAL_GPS',
+          });
         },
         (err) => {
-          console.log('Auto-location fallback:', err.message);
+          console.warn('GPS location request error:', err.message);
+          setGpsStatus({
+            active: false,
+            accuracy: null,
+            error: err.message,
+            mode: 'REAL_GPS',
+          });
         },
-        { enableHighAccuracy: true, timeout: 6000 }
+        { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
       );
     }
   }, []);
+
+  const handleConfirmGPS = () => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('runterritory_gps_asked', 'true');
+    }
+    setShowGpsModal(false);
+    requestHighAccuracyLocation();
+  };
+
+  const handleCancelGPS = () => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('runterritory_gps_asked', 'true');
+    }
+    setShowGpsModal(false);
+  };
+
+  // Auto-locate real user GPS position on page launch if permission already granted
+  useEffect(() => {
+    requestHighAccuracyLocation();
+  }, [requestHighAccuracyLocation]);
 
   // Core movement & territory capture processor
   const processNewPosition = useCallback((newPos: Coordinate) => {
@@ -335,6 +378,13 @@ export default function PaperIoGpsGame() {
 
   return (
     <main style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
+      {/* GPS Permission Modal Prompt on App Entry */}
+      <GPSPermissionModal
+        isOpen={showGpsModal}
+        onConfirm={handleConfirmGPS}
+        onCancel={handleCancelGPS}
+      />
+
       {/* Nickname & Personal Color Selection Modal */}
       <NicknameModal
         isOpen={showNicknameModal}
